@@ -1,0 +1,12 @@
+#!/bin/csh -f 
+#PBS -j oe 
+###PBS -m ae 
+#PBS -V
+#PBS -q regular
+#PBS -N we15-400
+#PBS -A UWAS0070
+#PBS -l select=1:ncpus=1
+#PBS -l walltime=12:00:00
+
+. ~/.bashrc_current
+./runpy

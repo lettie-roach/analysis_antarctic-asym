@@ -1,0 +1,4 @@
+figs/
+*ipynb_checkpoints*
+*checkpoint*
+__pycache__*

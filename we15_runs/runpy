@@ -1,0 +1,5 @@
+#!/bin/bash
+
+### Run the executable
+. ~/.bashrc_current
+python WE15-varcw-res400.py 
