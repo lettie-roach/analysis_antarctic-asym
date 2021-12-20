@@ -1,10 +1,10 @@
 # analysis_antarctic-asym
 
-## Code for the figures and analysis in `Asymmetry in the seasonal cycle of Antarctic sea ice due to insolation', submitted to Nature Geoscience
+## Code for the figures and analysis in `Asymmetry in the seasonal cycle of Antarctic sea ice driven by insolation', acccepted at Nature Geoscience
 
-Paper citation: XX
+Paper citation: TBU
 
-Analysis code developed by LR, with help from IE and TW. The WE15 model was developed by XX and is available in its original form XX.
+Analysis code developed by LR, with help from IE and TW. The WE15 model was developed by Wagner and Eisenman (2015, Journal of Climate) and is available in its original form at http://eisenman.ucsd.edu/code.html.
 
 This repository contains:
 
