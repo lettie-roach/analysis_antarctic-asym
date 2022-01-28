@@ -209,6 +209,7 @@ def we15_model (exptype = 'Full',nspace=400, nts=1000, mysolar=0., mycw=9.8, myA
         S = (np.tile(S0-S2*x**2,[nt,1])- np.tile(S1*np.cos(2*np.pi*ty),[n,1]).T*np.tile(x,[nt,1])); #totally symmetric at all lats
     else:
         S = mysolar
+    S = np.vstack((S,S[0,:]))
     
     ##Further definitions
     M = B+cg_tau; 
@@ -252,7 +253,7 @@ def we15_model (exptype = 'Full',nspace=400, nts=1000, mysolar=0., mycw=9.8, myA
                 T = E/cw*(E>=0)+T0*(E<0)*(T0<0);  #WE15, eq.9
                 E = E+dt*(C-M*T+Fb);                 #WE15, eq.A2, Forward Euler on E
                 Tg = np.linalg.solve(kappa-np.diag(dc/(M-kLf/E)*(T0<0)*(E<0)),
-                                     Tg+(dt_tau*(E/cw*(E>=0)+(ai*S[i,:]-A)/(M-kLf/E)*(T0<0)*(E<0)))) #Implicit Euler on Tg
+                                     Tg+(dt_tau*(E/cw*(E>=0)+(ai*S[i+1,:]-A)/(M-kLf/E)*(T0<0)*(E<0)))) #Implicit Euler on Tg
                 
             Efin[years,i,:] = E
             Tfin[years,i,:] = T

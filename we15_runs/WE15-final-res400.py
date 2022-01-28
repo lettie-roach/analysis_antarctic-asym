@@ -2,7 +2,7 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 import sys
-sys.path.insert(1, '/glade/u/home/lettier/analysis/analysis_antarctic-asym/pub/')
+sys.path.insert(1, '/glade/u/home/lettier/analysis/analysis_antarctic-asym/analysis/')
 import asym_funcs as af
 import time
 

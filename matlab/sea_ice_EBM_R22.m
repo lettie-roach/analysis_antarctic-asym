@@ -5,7 +5,7 @@
 % with the main difference being that this model uses realistic insolation
 % whereas WE15 used an idealized sinusoidal insolation field. More comments
 % regarding the equations in this code can be found in the WE15 model code:
-%   sea_ice_EBM_WE15b.m at https://eisenman-group.github.io
+%   sea_ice_EBM_WE15.m at https://eisenman-group.github.io
 %
 % The insolation field is calculated using the code of Huybers and Eisenman
 % (2006), which is included in this file as a subroutine. A more complete
@@ -13,11 +13,17 @@
 % comments) is available is a separate file:
 %   daily_insolation.m at https://eisenman-group.github.io
 %
+% The results presented in Roach et al. (2022) were generated using python
+% code that is available at the link given at the end of the paper. This
+% Matlab code produces results that have slight numerical differences
+% compared with the python results.
+%
 % Inputs: Any changes to parameter values (see Example below).
 % 
 % Outputs: Climatological mean seasonal cycle during final 20 years of 
 % t (time in yrs), iceA (ice area in 10^6 km^2), E (enthalpy in J/m^2), 
-% and T (surface temperature in deg C).
+% and T (surface temperature in deg C). If no outputs are specified in the
+% function call, then the fields are saved to sea_ice_EBM_R22.mat .
 %
 % Example:
 % [t1,iceA1] = sea_ice_EBM_R22;
@@ -91,6 +97,7 @@ IdealSol=s0-s1*cos(2*pi*tt).*xx-s2*xx.^2;
 if strcmp(Sol,'SHSol'), S=SHSol; end
 if strcmp(Sol,'IdealSol'), S=IdealSol; end
 if strcmp(Sol,'NHSol'), S=NHSol; end
+S=[S S(:,1)];
 %%Further definitions -----------------------------------------------------
 M = B+cg_tau;
 aw= a0-a2*x.^2;   % ice-free albedo
@@ -107,6 +114,7 @@ if strcmp(Config,'NoIce') || strcmp(Config,'NoIce_NoDiff')
 else
     ice=1;
 end
+disp('starting run')
 for years = 1:dur
     % Loop within One Year-------------------------------------------------
     for i = 1:nt
@@ -129,7 +137,7 @@ for years = 1:dur
             E = E+dt*(C-M*T+Fb);                 %WE15 Eq. (A2)
             % Implicit Euler for Tg
             Tg = (kappa-diag(dc./(M-kLf./E).*(T0<0).*(E<0)))\ ...
-                (Tg + (dt_tau*(E/cw.*(E>=0)+(ai*S(:,i) ...
+                (Tg + (dt_tau*(E/cw.*(E>=0)+(ai*S(:,i+1) ...
                 -A)./(M-kLf./E).*(T0<0).*(E<0))));        %WE15 Eq. (A1)
         else
             T = E/cw;
@@ -159,6 +167,7 @@ if nargout>0 %save output
     T_c=Tc;
 else
     save sea_ice_EBM_R22.mat tc iceA Ec Tc
+    disp('output saved to sea_ice_EBM_R22.mat')
 end
 
 
